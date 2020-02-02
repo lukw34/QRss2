@@ -1,12 +1,14 @@
 import React from 'react';
 import {
-    StatusBar, Text,
+    StatusBar
 } from 'react-native';
+import 'react-native-gesture-handler';
 
+import RootStackNavigation from './navigation/RootStackNavigation';
 const App = () => (
     <>
         <StatusBar barStyle="light-content" />
-        <Text>QRss2</Text>
+        <RootStackNavigation/>
     </>
 );
 
