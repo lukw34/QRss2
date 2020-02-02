@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "start": "react-native start",
-    "test": "jest"
+    "test": "jest",
+    "lint": "tslint --project ."
   },
   "dependencies": {
     "react": "16.8.6",
@@ -18,10 +19,18 @@
     "@types/react": "^16.9.2",
     "@types/react-native": "^0.60.14",
     "@types/react-test-renderer": "^16.9.0",
+    "@typescript-eslint/eslint-plugin": "^2.18.0",
+    "babel-eslint": "^10.0.3",
     "babel-jest": "^24.1.0",
+    "eslint": "^6.8.0",
+    "eslint-config-airbnb": "^18.0.1",
     "jest": "^24.1.0",
     "metro-react-native-babel-preset": "0.54.1",
     "react-test-renderer": "16.8.6",
+    "tslint": "^6.0.0",
+    "tslint-config-airbnb": "^5.11.2",
+    "tslint-react": "^4.2.0",
+    "tslint-react-native": "^0.0.7",
     "typescript": "^3.6.3"
   },
   "jest": {

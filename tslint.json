@@ -1,0 +1,20 @@
+{
+  "extends": ["tslint:latest", "tslint-react", "tslint-config-airbnb"],
+  "linterOptions": {
+    "exclude": ["node_modules/**/*.ts"]
+  },
+  "rules": {
+    "import-name": false,
+    "variable-name": [true, "check-format", "allow-leading-underscore", "allow-pascal-case", "ban-keywords"],
+    "max-classes-per-file": {
+      "options": [2]
+    },
+    "no-default-export": false,
+    "no-submodule-imports": {
+      "options": ["tsutils"]
+    },
+    "restrict-plus-operands": true,
+    "strict-boolean-expressions": true,
+    "indent": [true, "spaces", 4]
+  }
+}
