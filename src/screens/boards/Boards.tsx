@@ -1,10 +1,10 @@
 import React from 'react';
 import { View, Text } from 'react-native';
 
-const Login = () => (
+const Boards = () => (
     <View>
-        <Text>Login Screen</Text>
+        <Text>Boards Screen</Text>
     </View>
 );
 
-export default Login;
+export default Boards;

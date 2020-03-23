@@ -10,13 +10,13 @@
       "options": [2]
     },
     "no-default-export": false,
-    "no-submodule-imports": {
-      "options": ["tsutils"]
-    },
+    "no-submodule-imports": false,
+    "jsx-no-multiline-js": false,
     "restrict-plus-operands": true,
     "strict-boolean-expressions": true,
     "indent": [true, "spaces", 4],
     "trailing-comma": false,
-    "no-implicit-dependencies": false
+    "no-implicit-dependencies": false,
+    "jsx-wrap-multiline": false
   }
 }
