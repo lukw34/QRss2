@@ -3,9 +3,9 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { useSelector } from 'react-redux';
 
 import Login from '../auth/components/Login';
-import BottomTabFeatureNavigation from './BottomTabFeatureNavigation';
 import { RootStackParamsList, RootScreens } from './Navigation';
 import { isUserLogged } from '../auth/auth.selectors';
+import MainScreenNavigation from './MainScreenNavigation';
 
 const { Navigator, Screen } = createStackNavigator<RootStackParamsList>();
 
@@ -18,8 +18,8 @@ const RootStackNavigation = () => {
           options={{
             headerShown: false
           }}
-          name={RootScreens.FEATURES}
-          component={BottomTabFeatureNavigation}
+          name={RootScreens.MAIN}
+          component={MainScreenNavigation}
         />) : (
         <Screen
           options={{

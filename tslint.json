@@ -17,6 +17,7 @@
     "indent": [true, "spaces", 4],
     "trailing-comma": false,
     "no-implicit-dependencies": false,
-    "jsx-wrap-multiline": false
+    "jsx-wrap-multiline": false,
+    "jsx-no-lambda": false
   }
 }

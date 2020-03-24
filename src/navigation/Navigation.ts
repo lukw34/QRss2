@@ -1,14 +1,14 @@
 export enum RootScreens {
-  FEATURES = 'FEATURES',
+  MAIN = 'MAIN',
   LOGIN = 'LOGIN'
 }
 
 export type RootStackParamsList = {
   [RootScreens.LOGIN]: undefined,
-  [RootScreens.FEATURES]: undefined
+  [RootScreens.MAIN]: undefined
 };
 
-export enum FeatureScreens {
+export enum Screens {
   HOME = 'HOME',
   BOARDS = 'BOARDS'
 }
