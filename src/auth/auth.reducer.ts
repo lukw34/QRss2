@@ -1,5 +1,5 @@
 import { createReducer } from 'typesafe-actions';
-import { authFailure, authSuccess, logOut, startAuthentication } from './auth.actions';
+import { authFailure, authSuccess, startAuthentication } from './auth.actions';
 import { AuthActions, AuthState } from './types';
 
 export default createReducer<AuthState, AuthActions>({
@@ -18,5 +18,5 @@ export default createReducer<AuthState, AuthActions>({
   isProcessing: false
 })).handleAction(startAuthentication, state => ({
   ...state,
-  isProcessing: false
+  isProcessing: true
 }));

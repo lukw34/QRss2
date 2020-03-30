@@ -5,15 +5,25 @@ import {
 } from 'react-native';
 import 'react-native-gesture-handler';
 import { NavigationContainer } from '@react-navigation/native';
-import { Provider as PaperProvider } from 'react-native-paper';
+import {DefaultTheme, Provider as PaperProvider} from 'react-native-paper';
 
-import RootStackNavigation from './navigation/RootStackNavigation';
+import RootStackNavigation from './navigation/components/RootStackNavigation';
 import store from './store';
 import { navigationRef } from './navigation/RootNavigation';
 
+const theme = {
+  ...DefaultTheme,
+  roundness: 2,
+  colors: {
+    ...DefaultTheme.colors,
+    primary: '#3860fe',
+    accent: '#ffb74d',
+  },
+};
+
 const App = () => (
       <Provider store={store}>
-        <PaperProvider>
+        <PaperProvider theme={theme}>
           <NavigationContainer ref={navigationRef}>
               <StatusBar barStyle="light-content"/>
               <RootStackNavigation/>

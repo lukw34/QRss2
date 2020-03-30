@@ -4,11 +4,18 @@ import { catchError, mergeMap, map, ignoreElements } from 'rxjs/operators';
 import { EMPTY, NextObserver, Observable, of } from 'rxjs';
 import auth, { FirebaseAuthTypes } from '@react-native-firebase/auth';
 
-import { authError, authFailure, authSuccess, logInWithCredentials, logOut } from './auth.actions';
+import {
+  authError,
+  authFailure,
+  authSuccess,
+  logInWithCredentials,
+  logOut,
+  createUser
+} from './auth.actions';
 import { AuthActions } from './types';
 
 const authChanged = Observable
-  .create((obs: NextObserver<FirebaseAuthTypes.User | null>) => auth().onAuthStateChanged(
+  .create((obs: NextObserver<FirebaseAuthTypes.User | null>) => auth().onUserChanged(
   (user: FirebaseAuthTypes.User | null) => obs.next(user)
 ));
 
@@ -31,6 +38,27 @@ export const logOutEpic: Epic<AuthActions> = action$ => action$.pipe(
   }),
   catchError((error: any) =>  of(authError(error.message))),
   ignoreElements()
+);
+
+export const createUserWitProfileData: Epic<AuthActions> = action$ => action$.pipe(
+  ofType(getType(createUser)),
+  mergeMap(async (action) => {
+    const {
+      payload: {
+        email,
+        password,
+        firstName,
+        lastName
+      } } = action as ActionType<typeof createUser>;
+
+    const { user } = await auth().createUserWithEmailAndPassword(email, password);
+    await user.updateProfile({
+      displayName: `${firstName} ${lastName}`
+    });
+    return EMPTY;
+  }),
+  catchError(error => of(authError(error.message))),
+  ignoreElements(),
 );
 
 export const authStatusChange = () => authChanged.pipe(

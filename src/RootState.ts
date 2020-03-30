@@ -1,5 +1,7 @@
 import { AuthState } from './auth/types';
+import { NavigationState } from './navigation/types';
 
 export type RootState = {
-  auth: AuthState
+  auth: AuthState,
+  navigation: NavigationState
 };

@@ -18,6 +18,7 @@
     "trailing-comma": false,
     "no-implicit-dependencies": false,
     "jsx-wrap-multiline": false,
-    "jsx-no-lambda": false
+    "jsx-no-lambda": false,
+    "align": [true, "parameters", "statements"]
   }
 }

@@ -1,19 +1,9 @@
 import React from 'react';
-import { View, Text, Button } from 'react-native';
-import { useDispatch } from 'react-redux';
-import { logOut } from '../../auth/auth.actions';
+import { View, Text } from 'react-native';
 
-const Home = () => {
-  const dispatch = useDispatch();
-  const onPress = () => {
-    dispatch(logOut());
-  };
-
-  return (
-    <View>
-      <Text>Home Screen</Text>
-      <Button title="Log out" onPress={onPress} />
-    </View>
-  );
-};
+const Home = () =>  (
+  <View>
+    <Text>Home Screen</Text>
+  </View>
+);
 export default Home;
