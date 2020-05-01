@@ -3,21 +3,20 @@ import { combineEpics, createEpicMiddleware } from 'redux-observable';
 
 import auth from './auth/auth.reducer';
 import navigation from './navigation/navigation.reducer';
+import profile from './screens/profile/profile.reducer';
 
-import {logInEpic, logOutEpic, authStatusChange, createUserWitProfileData} from './auth/auth.epic';
+import authEpic from './auth/auth.epic';
 
 const epicMiddleware = createEpicMiddleware();
 
 const reducers = combineReducers({
   auth,
-  navigation
+  navigation,
+  profile
 });
 
 const rootEpic = combineEpics(
-  logInEpic,
-  logOutEpic,
-  authStatusChange,
-  createUserWitProfileData
+  authEpic
 );
 
 const store = createStore(

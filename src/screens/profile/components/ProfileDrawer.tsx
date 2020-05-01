@@ -1,74 +1,90 @@
 import React from 'react';
-import { StyleSheet, TextStyle, View, ViewStyle } from 'react-native';
+import { StyleSheet, View, ViewStyle } from 'react-native';
+// @ts-ignore
+import EvilIcons from 'react-native-vector-icons/EvilIcons';
+// @ts-ignore
+import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
 import {
   DrawerContentScrollView,
+  DrawerItem
 } from '@react-navigation/drawer';
-import { useDispatch } from 'react-redux';
-import { Button, Subheading, Avatar, Text } from 'react-native-paper';
+import { useDispatch, useSelector } from 'react-redux';
+import {
+  Button,
+  Title,
+  Caption,
+  Avatar,
+  Drawer
+} from 'react-native-paper';
 
 import { logOut } from '../../../auth/auth.actions';
+import { getProfileData } from '../profile.selectors';
 
 const ProfileDrawer = (props: any) => {
-
+  const { avatar, email, displayName } = useSelector(getProfileData);
   const dispatch = useDispatch();
   const onPress = () => {
     dispatch(logOut());
   };
+
   return (
     <DrawerContentScrollView
-      style={styles.DrawerContainer}
       {...props}
-      contentContainerStyle={styles.DrawerContentContainer}
     >
-        <View style={styles.AvatarContainer}>
-          <Avatar.Image
-            size={64}
-            source={{ uri: 'hhttps://www.conveyancemarketinggroup.com/subconveyance/wp-content/uploads/2015/09/Carolyn-Dobson-avatar-VPBD.png' }}
+      <View style={styles.drawerContainer}>
+        <View style={styles.userInfoContainer}>
+            <Avatar.Image
+              size={64}
+              source={{ uri: avatar }}
+            />
+            <Title>{displayName}</Title>
+            <Caption>{email}</Caption>
+        </View>
+        <Drawer.Section>
+          <DrawerItem
+            icon={({ size }) => <EvilIcons size={size} name="plus" />}
+            label="New QRss"
+            onPress={() => null}
           />
-          <Subheading style={styles.EmailText}>lukw34@gmail.com</Subheading>
-        </View>
-        <View>
-          <Text> New Qrss</Text>
-          <Text> Map </Text>
-        </View>
-        <Button style={styles.LogoutContainer} mode="contained" onPress={onPress}>
+          <DrawerItem
+            icon={({ size }) => <EvilIcons size={size} name="location" />}
+            label="Map"
+            onPress={() => null}
+          />
+        </Drawer.Section>
+        <Button
+          color="red"
+          style={styles.logoutContainer}
+          mode="outlined"
+          onPress={onPress}
+          icon={({ size, color }) => <MaterialIcon color={color} size={size} name="power-settings-new"/>}
+        >
           Log out
         </Button>
+      </View>
     </DrawerContentScrollView>
   );
 };
 interface ProfileDrawerStyles {
-  DrawerContainer: ViewStyle;
-  DrawerContentContainer: ViewStyle;
-  AvatarContainer: ViewStyle;
-  EmailText: TextStyle;
-  ProfileDetailContainer: ViewStyle;
-  LogoutContainer: ViewStyle;
+  drawerContainer: ViewStyle;
+  userInfoContainer: ViewStyle;
+  logoutContainer: ViewStyle;
 }
 
 const styles = StyleSheet.create<ProfileDrawerStyles>({
-  DrawerContainer: {
+  drawerContainer: {
     flex: 1,
-    backgroundColor: '#CB8749',
   },
-  DrawerContentContainer: {
+  userInfoContainer: {
+    flex: 1,
     justifyContent: 'center',
-    alignItems: 'center'
+    margin: 20
   },
-  AvatarContainer: {
-    alignSelf: 'stretch',
-    alignItems: 'center',
-    marginVertical: 35,
-    justifyContent: 'center',
-  },
-  EmailText: {
-    color: 'white',
-    padding: 10
-  },
-  ProfileDetailContainer: {
-  },
-  LogoutContainer: {
-    marginHorizontal: 50
+  logoutContainer: {
+    marginVertical: 50,
+    marginHorizontal: 10,
+    borderWidth: 1,
+    borderColor: 'red'
   }
 });
 

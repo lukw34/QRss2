@@ -3,18 +3,29 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { useSelector } from 'react-redux';
 
 import Login from '../../auth/components/Login';
-import { RootStackParamsList, RootScreens } from '../Navigation';
+import { RootScreens, RootStackParamsList } from '../Navigation';
 import MainScreenNavigation from './MainScreenNavigation';
 import { isUserLogged } from '../../auth/auth.selectors';
 import Registration from '../../auth/components/Registration';
+import { isLoadingScreen } from '../navigation.selectors';
+import LoadingScreen from './LoadingScreen';
 
 const { Navigator, Screen } = createStackNavigator<RootStackParamsList>();
 
 const RootStackNavigation = () => {
   const isUserAuthenticated = useSelector(isUserLogged);
+  const isLoading = useSelector(isLoadingScreen);
   return (
     <Navigator>
-      {isUserAuthenticated ? (
+      {isLoading ? (
+        <Screen
+          options={{
+            headerShown: false
+          }}
+          name={RootScreens.LOADING}
+          component={LoadingScreen}
+        />
+      ) : (isUserAuthenticated ? (
         <Screen
           options={{
             headerShown: false
@@ -38,7 +49,8 @@ const RootStackNavigation = () => {
             component={Registration}
           />
         </React.Fragment>
-      )}
+      ))}
+
     </Navigator>
   );
 };

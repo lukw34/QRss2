@@ -9,12 +9,14 @@ import RePasswordInputComponent from './RePasswordInputComponent';
 import emailValidator from '../../validators/emailValidator';
 import rePasswordValidator from '../../validators/rePasswordValidator';
 import useValidation from '../hooks/useValidation';
+import ImageUploader from './ImageUploader';
 
 enum RegistrationFields {
   PASSWORD = 'password',
   EMAIL = 'email',
   FIRST_NAME = 'firstName',
-  LAST_NAME = 'lastName'
+  LAST_NAME = 'lastName',
+  AVATAR = 'avatar'
 }
 
 type FormModel = {
@@ -24,9 +26,10 @@ type FormModel = {
   },
   [RegistrationFields.EMAIL]?: string,
   [RegistrationFields.LAST_NAME]?: string,
-  [RegistrationFields.FIRST_NAME]?: string
+  [RegistrationFields.FIRST_NAME]?: string,
+  [RegistrationFields.AVATAR]?: string
 };
-
+// TODO Add Keyboard Safe area view
 const Registration: React.FC = () => {
   const dispatch = useDispatch();
   const validators = {
@@ -56,8 +59,8 @@ const Registration: React.FC = () => {
 
   const onSubmit = () => {
     if (validateAllFields(model)) {
-      const { email = '', password, firstName, lastName } = model;
-      dispatch(createUser(email, password!.password, firstName, lastName));
+      const { email = '', password, firstName, lastName, avatar } = model;
+      dispatch(createUser(email, password!.password, firstName, lastName, avatar));
     }
   };
 
@@ -65,6 +68,10 @@ const Registration: React.FC = () => {
     <View style={styles.registrationContainer}>
       <Title style={styles.registrationTitle}>Registration</Title>
       <View style={styles.textInputsContainer}>
+        <ImageUploader
+          setModelValue={setModelValue}
+          fieldKey={RegistrationFields.AVATAR}
+        />
         <FormInputComponent
           setModelValue={setModelValue}
           fieldKey={RegistrationFields.EMAIL}
@@ -97,7 +104,7 @@ const Registration: React.FC = () => {
 interface LoginStyles {
   registrationTitle: TextStyle;
   registrationContainer: ViewStyle;
-  textInputsContainer: TextStyle;
+  textInputsContainer: ViewStyle;
 }
 
 const styles = StyleSheet.create<LoginStyles>({
@@ -110,7 +117,9 @@ const styles = StyleSheet.create<LoginStyles>({
     marginHorizontal: 50
   },
   textInputsContainer: {
-    marginVertical: 30
+    flexDirection: 'column',
+    marginVertical: 30,
+    justifyContent: 'center',
   },
 
 });

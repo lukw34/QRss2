@@ -10,11 +10,12 @@ export const logInWithCredentials = createAction(
 
 export const createUser = createAction(
   '@auth/CREATE_USER',
-  (email: string, password: string, firstName?: string, lastName?: string) => ({
+  (email: string, password: string, firstName?: string, lastName?: string, avatar?: string) => ({
     email,
     password,
     firstName,
-    lastName
+    lastName,
+    avatar
   }))();
 
 export const authSuccess = createAction('@auth/AUTH_SUCCESS', (userId: string) => ({
