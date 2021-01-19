@@ -1,7 +1,7 @@
 import React from 'react';
 import { Provider } from 'react-redux';
 import {
-    StatusBar
+    StatusBar, Text
 } from 'react-native';
 import 'react-native-gesture-handler';
 import { NavigationContainer } from '@react-navigation/native';
@@ -22,14 +22,14 @@ const theme = {
 };
 
 const App = () => (
-      <Provider store={store}>
+    <Provider store={store}>
         <PaperProvider theme={theme}>
-          <NavigationContainer ref={navigationRef}>
-              <StatusBar barStyle="light-content"/>
-              <RootStackNavigation/>
-          </NavigationContainer>
+            <NavigationContainer ref={navigationRef}>
+                <StatusBar barStyle="light-content"/>
+                <RootStackNavigation/>
+            </NavigationContainer>
         </PaperProvider>
-      </Provider>
+    </Provider>
   );
 
 export default App;
