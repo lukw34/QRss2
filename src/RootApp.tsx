@@ -5,7 +5,7 @@ import {
 } from 'react-native';
 import 'react-native-gesture-handler';
 import { NavigationContainer } from '@react-navigation/native';
-import {DefaultTheme, Provider as PaperProvider} from 'react-native-paper';
+import { DefaultTheme, Provider as PaperProvider } from 'react-native-paper';
 
 import RootStackNavigation from './navigation/components/RootStackNavigation';
 import store from './store';
@@ -16,8 +16,10 @@ const theme = {
   roundness: 2,
   colors: {
     ...DefaultTheme.colors,
-    primary: '#3860fe',
+    primary: '#7fcd91',
     accent: '#ffb74d',
+    background: '#8e8c8c',
+    text: 'white'
   },
 };
 

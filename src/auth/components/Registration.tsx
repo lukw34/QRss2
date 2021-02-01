@@ -94,8 +94,8 @@ const Registration: React.FC = () => {
           name="Last Name"
         />
       </View>
-      <Button disabled={!isValid} mode="outlined" onPress={onSubmit}>
-        Create account
+      <Button disabled={!isValid} mode="contained" onPress={onSubmit}>
+        Submit
       </Button>
     </View>
   );
@@ -114,7 +114,8 @@ const styles = StyleSheet.create<LoginStyles>({
   registrationContainer: {
     flex: 1,
     justifyContent: 'center',
-    marginHorizontal: 50
+    paddingHorizontal: 50,
+    backgroundColor: 'black'
   },
   textInputsContainer: {
     flexDirection: 'column',
