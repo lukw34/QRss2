@@ -15,6 +15,7 @@
     "restrict-plus-operands": true,
     "strict-boolean-expressions": true,
     "indent": [true, "spaces", 4],
+    "ter-indent": [true, 4],
     "trailing-comma": false,
     "no-implicit-dependencies": false,
     "jsx-wrap-multiline": false,

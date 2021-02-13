@@ -10,9 +10,9 @@ import authEpic from './auth/auth.epic';
 const epicMiddleware = createEpicMiddleware();
 
 const reducers = combineReducers({
-  auth,
-  navigation,
-  profile
+    auth,
+    navigation,
+    profile
 });
 
 const rootEpic = combineEpics(

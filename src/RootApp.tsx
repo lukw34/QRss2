@@ -18,8 +18,8 @@ const theme = {
     ...DefaultTheme.colors,
     primary: '#7fcd91',
     accent: '#ffb74d',
-    background: '#8e8c8c',
-    text: 'white'
+    background: 'white',
+    text: 'black'
   },
 };
 

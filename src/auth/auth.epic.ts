@@ -29,9 +29,9 @@ const authChanged = Observable
 export const logInEpic: Epic<EpicActions> = action$ => action$.pipe(
   ofType(getType(logInWithCredentials)),
   mergeMap(async (action) => {
-    const { payload: { email, password } } = action as ActionType<typeof logInWithCredentials>;
-    await auth().signInWithEmailAndPassword(email, password);
-    return hideLoadingScreen();
+      const { payload: { email, password } } = action as ActionType<typeof logInWithCredentials>;
+      await auth().signInWithEmailAndPassword(email, password);
+      return hideLoadingScreen();
   }),
   catchError(error => of(authError(error.message))),
 );
@@ -39,8 +39,8 @@ export const logInEpic: Epic<EpicActions> = action$ => action$.pipe(
 export const logOutEpic: Epic<EpicActions> = action$ => action$.pipe(
   ofType(getType(logOut)),
   mergeMap(async () => {
-    await auth().signOut();
-    return hideLoadingScreen();
+      await auth().signOut();
+      return hideLoadingScreen();
   }),
   catchError((error: any) =>  of(authError(error.message)))
 );
@@ -48,7 +48,7 @@ export const logOutEpic: Epic<EpicActions> = action$ => action$.pipe(
 export const createUserWitProfileData: Epic<EpicActions> = action$ => action$.pipe(
   ofType(getType(createUser)),
   mergeMap(async (action) => {
-    const {
+      const {
       payload: {
         email,
         password,
@@ -56,29 +56,29 @@ export const createUserWitProfileData: Epic<EpicActions> = action$ => action$.pi
         lastName,
         avatar
       } } = action as ActionType<typeof createUser>;
-    const { user } = await auth().createUserWithEmailAndPassword(email, password);
-    await user.updateProfile({
-      displayName: `${firstName} ${lastName}`,
-    });
-    if (avatar) {
-      const ext = avatar.split('.').pop();
-      const ref = storage().ref(`avatars/${user.uid}.${ext}`);
-      await ref.putFile(avatar, { contentType: 'image/jpg' });
+      const { user } = await auth().createUserWithEmailAndPassword(email, password);
       await user.updateProfile({
-        photoURL: await ref.getDownloadURL()
+          displayName: `${firstName} ${lastName}`,
       });
-    }
-    return hideLoadingScreen();
+      if (avatar) {
+          const ext = avatar.split('.').pop();
+          const ref = storage().ref(`avatars/${user.uid}.${ext}`);
+          await ref.putFile(avatar, { contentType: 'image/jpg' });
+          await user.updateProfile({
+              photoURL: await ref.getDownloadURL()
+          });
+      }
+      return hideLoadingScreen();
   }),
   catchError(error => of(authError(error.message)))
 );
 
 export const authStatusChange = () => authChanged.pipe(
   mergeMap((user: FirebaseAuthTypes.User) => {
-    if (user === null) {
-      return of(authFailure());
-    }
-    return of(
+      if (user === null) {
+          return of(authFailure());
+      }
+      return of(
       authSuccess(user.uid),
       updateProfileData(user.email, user.displayName, user.photoURL)
     );
