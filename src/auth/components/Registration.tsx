@@ -1,23 +1,24 @@
 import React, { useState } from 'react';
 import { View, StyleSheet, ViewStyle, TextStyle } from 'react-native';
-import { Button, Title } from 'react-native-paper';
+import { Button, Portal, Title, Modal, Text, Dialog, Paragraph } from 'react-native-paper';
 import { useDispatch } from 'react-redux';
 
 import { createUser } from '../auth.actions';
-import FormInputComponent from './FormInputComponent';
 import RePasswordInputComponent from './RePasswordInputComponent';
 import emailValidator from '../../validators/emailValidator';
 import rePasswordValidator from '../../validators/rePasswordValidator';
 import useValidation from '../hooks/useValidation';
-import ImageUploader from './ImageUploader';
 import GradientBackground from '../../ui-components/GradientBackground';
+import useModal from '../hooks/useModal';
+import ValidationInput from './ValidationInput';
+import ImageUploader from './ImageUploader';
 
 enum RegistrationFields {
   PASSWORD = 'password',
   EMAIL = 'email',
   FIRST_NAME = 'firstName',
   LAST_NAME = 'lastName',
-  AVATAR = 'avatar'
+  AVATAR = 'avatar',
 }
 
 type FormModel = {
@@ -30,38 +31,31 @@ type FormModel = {
     [RegistrationFields.FIRST_NAME]?: string,
     [RegistrationFields.AVATAR]?: string
 };
-// TODO Add Keyboard Safe area view
+
 const Registration: React.FC = () => {
     const dispatch = useDispatch();
     const validators = {
         [RegistrationFields.EMAIL]: emailValidator,
         [RegistrationFields.PASSWORD]: rePasswordValidator,
     };
-    const [model, setModel] = useState<FormModel>({});
+    const [imageModalStatus, setImageModalStatus] = useState(false);
+    const { model, setModelValue } = useModal<FormModel, RegistrationFields>({});
+    const openModal = () => setImageModalStatus(true);
+    const dismissModal = () => setImageModalStatus(false);
     const {
-    checkIsValid,
     errors,
     validateAllFields,
-    isValid
+    isValid,
+    setModelValueWithValidation,
   } = useValidation<RegistrationFields>([
       RegistrationFields.EMAIL,
       RegistrationFields.PASSWORD
-  ], validators);
-
-    const setModelValue = (key: RegistrationFields, value: any) => {
-        const valid = checkIsValid(key, value);
-        if (valid) {
-            setModel({
-                ...model,
-                [key]: value
-            });
-        }
-    };
+  ], validators, setModelValue);
 
     const onSubmit = () => {
         if (validateAllFields(model)) {
-            const { email = '', password, firstName, lastName, avatar } = model;
-            dispatch(createUser(email, password!.password, firstName, lastName, avatar));
+            const { email = '', password, firstName, lastName } = model;
+            dispatch(createUser(email, password!.password, firstName, lastName));
         }
     };
 
@@ -69,35 +63,56 @@ const Registration: React.FC = () => {
     <GradientBackground>
       <Title style={styles.registrationTitle}>Registration</Title>
       <View style={styles.textInputsContainer}>
-        {/*<ImageUploader*/}
-        {/*  setModelValue={setModelValue}*/}
-        {/*  fieldKey={RegistrationFields.AVATAR}*/}
-        {/*/>*/}
-        <FormInputComponent
-          setModelValue={setModelValue}
+        <ValidationInput
+          externalStyle={styles.textInputsContainer}
+          setModelValue={setModelValueWithValidation}
           fieldKey={RegistrationFields.EMAIL}
           error={errors[RegistrationFields.EMAIL]}
           name="Email"
+          placeholder="Type your e-mail"
         />
         <RePasswordInputComponent
-          setModelValue={setModelValue}
+          externalStyle={styles.textInputsContainer}
+          setModelValue={setModelValueWithValidation}
           fieldKey={RegistrationFields.PASSWORD}
           error={errors[RegistrationFields.PASSWORD]}
         />
-        <FormInputComponent
-          setModelValue={setModelValue}
+        <ValidationInput
+          externalStyle={styles.textInputsContainer}
+          setModelValue={setModelValueWithValidation}
           fieldKey={RegistrationFields.FIRST_NAME}
           name="First Name"
+          placeholder="Type your first name"
         />
-        <FormInputComponent
-          setModelValue={setModelValue}
+        <ValidationInput
+          externalStyle={styles.textInputsContainer}
+          setModelValue={setModelValueWithValidation}
           fieldKey={RegistrationFields.LAST_NAME}
           name="Last Name"
+          placeholder="Type your last name"
         />
+          <Button onPress={openModal}>
+              {model[RegistrationFields.AVATAR] ? 'Edit avatar photo' : 'Upload avatar'}
+          </Button>
       </View>
-      <Button disabled={!isValid} mode="contained" onPress={onSubmit}>
-        Submit
-      </Button>
+        <Portal>
+            <Dialog visible={imageModalStatus} onDismiss={dismissModal}>
+                <Dialog.Title>Select your avatar</Dialog.Title>
+                <Dialog.Content style={{ alignItems: 'center' }}>
+                    <ImageUploader
+                        setModelValue={setModelValueWithValidation}
+                        fieldKey={RegistrationFields.AVATAR}
+                        defaultValue={model[RegistrationFields.AVATAR]}
+                    />
+                </Dialog.Content>
+                <Dialog.Actions>
+                    <Button onPress={dismissModal}>Done</Button>
+                </Dialog.Actions>
+            </Dialog>
+        </Portal>
+        <Button disabled={!isValid} mode="contained" onPress={onSubmit}>
+            Submit
+        </Button>
     </GradientBackground>
     );
 };
@@ -110,7 +125,9 @@ interface LoginStyles {
 
 const styles = StyleSheet.create<LoginStyles>({
     registrationTitle: {
-        textAlign: 'center'
+        textAlign: 'center',
+        color: 'white',
+        fontSize: 23
     },
     registrationContainer: {
         flex: 1,
@@ -120,7 +137,7 @@ const styles = StyleSheet.create<LoginStyles>({
     },
     textInputsContainer: {
         flexDirection: 'column',
-        marginVertical: 30,
+        marginVertical: 5,
         justifyContent: 'center',
     },
 

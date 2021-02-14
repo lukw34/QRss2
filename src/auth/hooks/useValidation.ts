@@ -1,8 +1,11 @@
 import { useState } from 'react';
 
-export default <T extends string>(fields: T[], validators: {
-    [key: string]: (value: any) => string | null
-}) => {
+export default <FormFields extends string>(
+    fields: FormFields[],
+    validators: {
+        [key: string]: (value: any) => string | null
+    },
+    setModelValue: (key: FormFields, value: any) => void) => {
     const errorInitialState = fields.reduce((prev, val) => ({
         ...prev,
         [val]: null
@@ -11,7 +14,7 @@ export default <T extends string>(fields: T[], validators: {
         [key: string]: string | null
     }>(errorInitialState);
 
-    const checkIsValid = (key: T, value: any) => {
+    const checkIsValid = (key: FormFields, value: any) => {
         const validatorMethod = validators[key];
         if (validatorMethod) {
             const validationResult = validatorMethod(value);
@@ -32,7 +35,7 @@ export default <T extends string>(fields: T[], validators: {
         return true;
     };
 
-    const validateAllFields = (model: { [key: string]: any}) => {
+    const validateAllFields = (model: { [key: string]: any }) => {
         const batchedErrors = fields.reduce((previousValue, fieldKey) => ({
             ...previousValue,
             [fieldKey]: validators[fieldKey](model[fieldKey])
@@ -43,10 +46,17 @@ export default <T extends string>(fields: T[], validators: {
     };
 
     const isAllFieldsValid = (errorsToCheck = errors) => Object.keys(errorsToCheck)
-    .filter(fieldKey => !errors[fieldKey]).length > 0;
+        .filter(fieldKey => !errors[fieldKey]).length > 0;
+
+    const setModelValueWithValidation = (key: FormFields, value: any) => {
+        const valid = checkIsValid(key, value);
+        if (valid) {
+            setModelValue(key, value);
+        }
+    };
 
     return {
-        checkIsValid,
+        setModelValueWithValidation,
         errors,
         validateAllFields,
         isValid: isAllFieldsValid()

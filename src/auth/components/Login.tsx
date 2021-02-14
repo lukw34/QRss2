@@ -7,7 +7,7 @@ import { TextInput, Button, Text } from 'react-native-paper';
 import { RootScreens } from '../../navigation/Navigation';
 import GradientBackground from '../../ui-components/GradientBackground';
 import AppLogo from '../../ui-components/AppLogo';
-import FormInputComponent from './FormInputComponent';
+import SimpleFormInput from './SimpleFormInput';
 import useModal from '../hooks/useModal';
 
 enum LoginFields {
@@ -38,17 +38,21 @@ const Login: React.FC = () => {
                 <AppLogo />
               </View>
               <View style={styles.textInputsContainer}>
-                  <FormInputComponent
+                  <SimpleFormInput
                       setModelValue={setModelValue}
                       fieldKey={LoginFields.EMAIL}
                       placeholder="Email"
                       autoCompleteType="email"
                       name="Email"
+                      externalStyle={styles.textInputsContainer}
                   />
-                  <FormInputComponent
+                  <SimpleFormInput
                       setModelValue={setModelValue}
                       fieldKey={LoginFields.PASSWORD}
                       name="Password"
+                      placeholder="Password"
+                      autoCompleteType="password"
+                      secureTextEntry={true}
                   />
               </View>
                 <Button mode="contained" dark={true} onPress={onPress}>

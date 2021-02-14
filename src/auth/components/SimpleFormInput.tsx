@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { TextInput, Text } from 'react-native-paper';
-import { TextStyle, View, ViewStyle, StyleSheet, TextInputProps } from 'react-native';
+import { Text } from 'react-native-paper';
+import { TextStyle, View, ViewStyle, StyleSheet, TextInputProps, TextInput } from 'react-native';
 
 interface EmailInputComponentProps extends TextInputProps {
     externalStyle?: TextStyle;
@@ -10,25 +10,19 @@ interface EmailInputComponentProps extends TextInputProps {
     name: string;
 }
 
-const FormInputComponent: React.FC<EmailInputComponentProps> = (
+const SimpleFormInput: React.FC<EmailInputComponentProps> = (
   { externalStyle, setModelValue, fieldKey, error, name, ...props }) => {
     const [inputValue, setInputValue] = useState('');
-    const isError = !!error;
     const onBlur = () => setModelValue(fieldKey, inputValue);
     return (
     <View style={externalStyle}>
-      <TextInput
-        style={styles.textInput}
-        label={name}
-        value={inputValue}
-        onChangeText={setInputValue}
-        onBlur={onBlur}
-        error={isError}
-        {...props}
-      />
-      { error !== undefined  && (<View style={styles.errorContainer}>
-        {isError && <Text style={styles.errorText}>{error}</Text>}
-      </View>)}
+          <TextInput
+            style={styles.textInput}
+            value={inputValue}
+            onChangeText={setInputValue}
+            onBlur={onBlur}
+            {...props}
+          />
     </View>
     );
 };
@@ -43,6 +37,7 @@ const styles = StyleSheet.create<EmailInputComponentStyles>({
     textInput: {
         height: 45,
         marginVertical: 5,
+        backgroundColor: "white"
     },
     errorContainer: {
         height: 20,
@@ -53,4 +48,4 @@ const styles = StyleSheet.create<EmailInputComponentStyles>({
     }
 });
 
-export default FormInputComponent;
+export default SimpleFormInput;

@@ -4,6 +4,7 @@ import { catchError, mergeMap, mapTo } from 'rxjs/operators';
 import { NextObserver, Observable, of } from 'rxjs';
 import auth, { FirebaseAuthTypes } from '@react-native-firebase/auth';
 import storage from '@react-native-firebase/storage';
+import { Toast } from 'native-base';
 
 import {
   authError,
@@ -30,6 +31,7 @@ export const logInEpic: Epic<EpicActions> = action$ => action$.pipe(
   ofType(getType(logInWithCredentials)),
   mergeMap(async (action) => {
       const { payload: { email, password } } = action as ActionType<typeof logInWithCredentials>;
+      console.log(email, password);
       await auth().signInWithEmailAndPassword(email, password);
       return hideLoadingScreen();
   }),
@@ -60,6 +62,7 @@ export const createUserWitProfileData: Epic<EpicActions> = action$ => action$.pi
       await user.updateProfile({
           displayName: `${firstName} ${lastName}`,
       });
+      console.log('dupa', user);
       if (avatar) {
           const ext = avatar.split('.').pop();
           const ref = storage().ref(`avatars/${user.uid}.${ext}`);
@@ -92,7 +95,14 @@ export const authLoadingScreen: Epic<EpicActions> = action$ => action$.pipe(
 
 export const authStopLoadingScreen: Epic<EpicActions> = action$ => action$.pipe(
   ofType(getType(authError)),
-  mapTo(hideLoadingScreen())
+  mergeMap((action) => {
+      Toast.show({
+          text: action.payload.error,
+          buttonText: 'Okay',
+          duration: 3000
+      });
+      return of(hideLoadingScreen());
+  })
 );
 
 export default combineEpics(

@@ -1,74 +1,72 @@
-import React from 'react';
-import { TextInput, Text } from 'react-native-paper';
+import React, { useState } from 'react';
+import { Text } from 'react-native-paper';
 import { TextStyle, View, ViewStyle, StyleSheet } from 'react-native';
-import useRePassword from '../hooks/useRePassword';
+import ValidationInput from './ValidationInput';
 
 interface EmailInputComponentProps {
-  externalStyle?: TextStyle;
-  setModelValue: (key: any, value: any) => void;
-  fieldKey: string;
-  error: string | null;
+    externalStyle?: TextStyle;
+    setModelValue: (key: any, value: any) => void;
+    fieldKey: string;
+    error: string | null;
 }
 
 const RePasswordInputComponent: React.FC<EmailInputComponentProps> = (
   { externalStyle, error, fieldKey, setModelValue }) => {
-  const {
-    setRePassword,
-    setPassword,
-    rePassword,
-    password,
-    onBlur
-  } = useRePassword(fieldKey, setModelValue);
-  const isError = !!error;
-  return (
-    <View style={externalStyle}>
-      <TextInput
-        style={styles.passwordInput}
-        mode="outlined"
-        selectionColor="#0288d1"
-        label="Password"
+    const [password, setPassword] = useState('');
+    const [rePassword, setRePassword] = useState('');
+    const setRePasswordModelValue = () => {
+        setModelValue(fieldKey, {
+            password,
+            rePassword
+        });
+    };
+
+    const isError = !!error;
+    const showErrorMessage = error !== undefined;
+    return (
+    <>
+      <ValidationInput
+        externalStyle={externalStyle}
+        fieldKey={fieldKey}
+        name="Password"
         secureTextEntry={true}
         value={password}
         onChangeText={setPassword}
-        onBlur={onBlur}
-        error={isError}
+        setModelValue={setRePasswordModelValue}
+        placeholder="Type password"
+        disableErrorMessage={true}
       />
-      <TextInput
-        style={styles.passwordInput}
-        mode="outlined"
-        selectionColor="#0288d1"
-        label="Re-Password"
+      <ValidationInput
+        externalStyle={externalStyle}
+        fieldKey={fieldKey}
+        name="Re-Password"
         value={rePassword}
         onChangeText={setRePassword}
-        onBlur={onBlur}
-        error={isError}
+        setModelValue={setRePasswordModelValue}
+        disableErrorMessage={true}
         secureTextEntry={true}
+        placeholder="Type password again"
       />
-      <View style={styles.errorContainer}>
-        {isError && <Text style={styles.errorText}>{error}</Text>}
-      </View>
-    </View>
-  );
+        <View style={styles.errorContainer}>
+            {isError && <Text style={styles.errorText}>{error}</Text>}
+        </View>
+    </>
+    );
 };
 
 interface EmailInputComponentStyles {
-  errorContainer: ViewStyle;
-  errorText: TextStyle;
-  passwordInput: TextStyle;
+    errorContainer: ViewStyle;
+    errorText: TextStyle;
 }
 
 const styles = StyleSheet.create<EmailInputComponentStyles>({
-  passwordInput: {
-    height: 35,
-    marginVertical: 5
-  },
-  errorContainer: {
-    height: 20,
-  },
-  errorText: {
-    color: '#c62828',
-    fontSize: 10
-  }
+    errorContainer: {
+        height: 20,
+    },
+    errorText: {
+        color: '#c62828',
+        fontSize: 13
+    }
 });
 
 export default RePasswordInputComponent;

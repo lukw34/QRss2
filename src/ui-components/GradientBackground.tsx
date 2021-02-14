@@ -4,7 +4,7 @@ import { StyleSheet, ViewStyle } from 'react-native';
 
 const GradientBackground: React.FC = ({ children }) => (
     <LinearGradient
-        colors={['#a6a5a7', '#7c7c7c', '#525252']}
+        colors={['#173F5F', '#173F5F', '#3d3d3d']}
         style={styles.backgroundContainer}
     >
         {children}
