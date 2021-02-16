@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
-import { View, StyleSheet, ViewStyle, TextStyle, Image, ImageStyle } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
-import { useDispatch, useSelector } from 'react-redux';
-import { logInWithCredentials } from '../auth.actions';
-import { TextInput, Button, Text } from 'react-native-paper';
-import { RootScreens } from '../../navigation/Navigation';
+import React from 'react';
+import {View, StyleSheet, ViewStyle, TextStyle, ImageStyle} from 'react-native';
+import {useNavigation} from '@react-navigation/native';
+import {useDispatch} from 'react-redux';
+import {logInWithCredentials} from '../auth.actions';
+import {Button, Text} from 'react-native-paper';
+import {RootScreens} from '../../navigation/Navigation';
 import GradientBackground from '../../ui-components/GradientBackground';
 import AppLogo from '../../ui-components/AppLogo';
 import SimpleFormInput from './SimpleFormInput';
@@ -23,7 +23,7 @@ type FormModel = {
 const Login: React.FC = () => {
     const navigation = useNavigation();
     const dispatch = useDispatch();
-    const { model, setModelValue } = useModal<FormModel, LoginFields>({
+    const {model, setModelValue} = useModal<FormModel, LoginFields>({
         [LoginFields.PASSWORD]: '',
         [LoginFields.EMAIL]: ''
     });
@@ -33,36 +33,36 @@ const Login: React.FC = () => {
     const goToRegistration = () => navigation.navigate(RootScreens.REGISTRATION);
 
     return (
-            <GradientBackground>
-              <View style={styles.imageContainer}>
+        <GradientBackground>
+            <View style={styles.imageContainer}>
                 <AppLogo />
-              </View>
-              <View style={styles.textInputsContainer}>
-                  <SimpleFormInput
-                      setModelValue={setModelValue}
-                      fieldKey={LoginFields.EMAIL}
-                      placeholder="Email"
-                      autoCompleteType="email"
-                      name="Email"
-                      externalStyle={styles.textInputsContainer}
-                  />
-                  <SimpleFormInput
-                      setModelValue={setModelValue}
-                      fieldKey={LoginFields.PASSWORD}
-                      name="Password"
-                      placeholder="Password"
-                      autoCompleteType="password"
-                      secureTextEntry={true}
-                  />
-              </View>
-                <Button mode="contained" dark={true} onPress={onPress}>
-                  Sign In
-                </Button>
-                <View style={styles.signUpContainer}>
-                  <Text style={styles.signUpText}>If you don't have an account, you can </Text>
-                  <Button onPress={goToRegistration}>sign up</Button>
-                </View>
-            </GradientBackground>
+            </View>
+            <View style={styles.textInputsContainer}>
+                <SimpleFormInput
+                    setModelValue={setModelValue}
+                    fieldKey={LoginFields.EMAIL}
+                    placeholder='Email'
+                    autoCompleteType='email'
+                    name='Email'
+                    externalStyle={styles.textInputsContainer}
+                />
+                <SimpleFormInput
+                    setModelValue={setModelValue}
+                    fieldKey={LoginFields.PASSWORD}
+                    name='Password'
+                    placeholder='Password'
+                    autoCompleteType='password'
+                    secureTextEntry={true}
+                />
+            </View>
+            <Button mode='contained' dark={true} onPress={onPress}>
+                Sign In
+            </Button>
+            <View style={styles.signUpContainer}>
+                <Text style={styles.signUpText}>If you don't have an account, you can </Text>
+                <Button onPress={goToRegistration}>sign up</Button>
+            </View>
+        </GradientBackground>
     );
 };
 
@@ -76,15 +76,23 @@ interface LoginStyles {
 }
 
 const styles = StyleSheet.create<LoginStyles>({
-    imageContainer: {
-        flexDirection: 'column',
-        justifyContent: 'center',
-        alignSelf: 'center'
-    },
     image: {
-        width: 100,
+        alignSelf: 'center',
         height: 100,
-        alignSelf: 'center'
+        width: 100
+    },
+    imageContainer: {
+        alignSelf: 'center',
+        flexDirection: 'column',
+        justifyContent: 'center'
+    },
+    signUpContainer: {
+        alignItems: 'center',
+        flexDirection: 'row',
+        marginVertical: 10
+    },
+    signUpText: {
+        color: 'white'
     },
     textInput: {
         height: 45,
@@ -92,14 +100,6 @@ const styles = StyleSheet.create<LoginStyles>({
     },
     textInputsContainer: {
         marginVertical: 10
-    },
-    signUpContainer: {
-        alignItems: 'center',
-        marginVertical: 10,
-        flexDirection: 'row'
-    },
-    signUpText: {
-        color: 'white'
     }
 });
 

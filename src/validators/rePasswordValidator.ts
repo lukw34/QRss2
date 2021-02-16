@@ -6,17 +6,17 @@ enum EmailErrorMessages {
 export default (value : {
   password: string | undefined,
   rePassword: string  | undefined
-} | undefined) => {
-  const { password = '', rePassword = '' } = value || {};
-  if (password.length === 0) {
-    return EmailErrorMessages.PASSWORD_IS_MANDATORY;
-  }
-  if (password.length < 6) {
-    return EmailErrorMessages.PASSWORD_LENGTH;
-  }
-  if (password !== rePassword) {
-    return EmailErrorMessages.INVALID_RE_PASSWORD;
-  }
+} | undefined): string | null => {
+    const {password = '', rePassword = ''} = value || {};
+    if (password.length === 0) {
+        return EmailErrorMessages.PASSWORD_IS_MANDATORY;
+    }
+    if (password.length < 6) {
+        return EmailErrorMessages.PASSWORD_LENGTH;
+    }
+    if (password !== rePassword) {
+        return EmailErrorMessages.INVALID_RE_PASSWORD;
+    }
 
-  return null;
+    return null;
 };

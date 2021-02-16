@@ -1,1 +1,1 @@
-export { default as ProfileDrawer } from './components/ProfileDrawer';
+export {default as ProfileDrawer} from './components/ProfileDrawer';

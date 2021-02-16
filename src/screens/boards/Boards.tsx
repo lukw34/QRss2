@@ -1,7 +1,7 @@
 import React from 'react';
-import { View, Text } from 'react-native';
+import {View, Text} from 'react-native';
 
-const Boards = () => (
+const Boards: React.FC = () => (
     <View>
         <Text>Boards Screen</Text>
     </View>

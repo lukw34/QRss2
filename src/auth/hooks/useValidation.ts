@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import {useState} from 'react';
 
 export default <FormFields extends string>(
     fields: FormFields[],
@@ -45,8 +45,8 @@ export default <FormFields extends string>(
         return isAllFieldsValid(batchedErrors);
     };
 
-    const isAllFieldsValid = (errorsToCheck = errors) => Object.keys(errorsToCheck)
-        .filter(fieldKey => !errors[fieldKey]).length > 0;
+    const isAllFieldsValid = (errorsToCheck = errors) => Object.keys(errorsToCheck).
+        filter((fieldKey) => !errors[fieldKey]).length > 0;
 
     const setModelValueWithValidation = (key: FormFields, value: any) => {
         const valid = checkIsValid(key, value);

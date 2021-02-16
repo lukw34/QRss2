@@ -4,6 +4,7 @@
     "exclude": ["node_modules/**/*.ts"]
   },
   "rules": {
+    "no-unused-variable": true,
     "import-name": false,
     "variable-name": [true, "check-format", "allow-leading-underscore", "allow-pascal-case", "ban-keywords"],
     "max-classes-per-file": {

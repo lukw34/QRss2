@@ -1,13 +1,13 @@
-import React, { useState } from 'react';
-import { launchImageLibrary, MediaType } from 'react-native-image-picker';
+import React, {useState} from 'react';
+import {launchImageLibrary, MediaType} from 'react-native-image-picker';
 import {
-  StyleSheet,
-  TouchableWithoutFeedback,
-  ViewStyle,
-  View,
-  Text, Image, ImageStyle,
+    StyleSheet,
+    TouchableWithoutFeedback,
+    ViewStyle,
+    View,
+    Text, Image, ImageStyle,
 } from 'react-native';
-import { Toast } from 'native-base';
+import {Toast} from 'native-base';
 
 const options  = {
     mediaType: 'photo' as MediaType
@@ -19,7 +19,7 @@ interface ImageUploaderProps {
     defaultValue?: string;
 }
 
-const ImageUploader: React.FC<ImageUploaderProps> = ({ setModelValue, fieldKey, defaultValue }) => {
+const ImageUploader: React.FC<ImageUploaderProps> = ({setModelValue, fieldKey, defaultValue}) => {
     const [imageSource, setImageSource] = useState<string | undefined>(defaultValue);
     const onPress = () => {
         launchImageLibrary(options, (response) => {
@@ -40,16 +40,15 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({ setModelValue, fieldKey, 
     };
 
     return (
-    <TouchableWithoutFeedback
-       onPress={onPress}
-    >
-      <View style={[styles.imageContainer, styles.emptyContainer]}>
-        {imageSource ? (
-          <Image onLoadEnd={onLoad} style={styles.imageStyle} source={{ uri: imageSource }} />) : (
-          <Text>+</Text>
-        )}
-      </View>
-    </TouchableWithoutFeedback>
+        <TouchableWithoutFeedback
+            onPress={onPress}
+            >
+            <View style={[styles.imageContainer, styles.emptyContainer]}>
+                {imageSource ? (
+                    <Image onLoadEnd={onLoad} style={styles.imageStyle} source={{uri: imageSource}} />) :
+                    (<Text>+</Text>)}
+            </View>
+        </TouchableWithoutFeedback>
     );
 };
 
@@ -60,7 +59,7 @@ interface ImageUploaderStyle {
 }
 
 const styles = StyleSheet.create<ImageUploaderStyle>({
-    imageContainer:{
+    imageContainer: {
         alignItems: 'center',
         justifyContent: 'center',
         width: 100,

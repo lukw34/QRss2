@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
-import { View, StyleSheet, ViewStyle, TextStyle } from 'react-native';
-import { Button, Portal, Title, Modal, Text, Dialog, Paragraph } from 'react-native-paper';
-import { useDispatch } from 'react-redux';
+import React, {useState} from 'react';
+import {View, StyleSheet, ViewStyle, TextStyle} from 'react-native';
+import {Button, Title} from 'react-native-paper';
+import {useDispatch} from 'react-redux';
 
-import { createUser } from '../auth.actions';
+import {createUser} from '../auth.actions';
 import RePasswordInputComponent from './RePasswordInputComponent';
 import emailValidator from '../../validators/emailValidator';
 import rePasswordValidator from '../../validators/rePasswordValidator';
@@ -11,7 +11,7 @@ import useValidation from '../hooks/useValidation';
 import GradientBackground from '../../ui-components/GradientBackground';
 import useModal from '../hooks/useModal';
 import ValidationInput from './ValidationInput';
-import ImageUploader from './ImageUploader';
+import ImageUploaderDialog from '../../common/ImageUploaderDialog';
 
 enum RegistrationFields {
   PASSWORD = 'password',
@@ -38,88 +38,77 @@ const Registration: React.FC = () => {
         [RegistrationFields.EMAIL]: emailValidator,
         [RegistrationFields.PASSWORD]: rePasswordValidator,
     };
-    const [imageModalStatus, setImageModalStatus] = useState(false);
-    const { model, setModelValue } = useModal<FormModel, RegistrationFields>({});
-    const openModal = () => setImageModalStatus(true);
-    const dismissModal = () => setImageModalStatus(false);
+    const [imageDialogStatus, setImageDialogStatus] = useState(false);
+    const {model, setModelValue} = useModal<FormModel, RegistrationFields>({});
+    const openModal = () => setImageDialogStatus(true);
+    const dismissModal = () => setImageDialogStatus(false);
     const {
-    errors,
-    validateAllFields,
-    isValid,
-    setModelValueWithValidation,
-  } = useValidation<RegistrationFields>([
-      RegistrationFields.EMAIL,
-      RegistrationFields.PASSWORD
-  ], validators, setModelValue);
+        errors,
+        validateAllFields,
+        isValid,
+        setModelValueWithValidation,
+    } = useValidation<RegistrationFields>([
+        RegistrationFields.EMAIL,
+        RegistrationFields.PASSWORD
+    ], validators, setModelValue);
 
     const onSubmit = () => {
         if (validateAllFields(model)) {
-            const { email = '', password, firstName, lastName } = model;
+            const {email = '', password, firstName, lastName} = model;
             dispatch(createUser(email, password!.password, firstName, lastName));
         }
     };
 
     return (
-    <GradientBackground>
-      <Title style={styles.registrationTitle}>Registration</Title>
-      <View style={styles.textInputsContainer}>
-        <ValidationInput
-          externalStyle={styles.textInputsContainer}
-          setModelValue={setModelValueWithValidation}
-          fieldKey={RegistrationFields.EMAIL}
-          error={errors[RegistrationFields.EMAIL]}
-          name="Email"
-          placeholder="Type your e-mail"
-        />
-        <RePasswordInputComponent
-          externalStyle={styles.textInputsContainer}
-          setModelValue={setModelValueWithValidation}
-          fieldKey={RegistrationFields.PASSWORD}
-          error={errors[RegistrationFields.PASSWORD]}
-        />
-        <ValidationInput
-          externalStyle={styles.textInputsContainer}
-          setModelValue={setModelValueWithValidation}
-          fieldKey={RegistrationFields.FIRST_NAME}
-          name="First Name"
-          placeholder="Type your first name"
-        />
-        <ValidationInput
-          externalStyle={styles.textInputsContainer}
-          setModelValue={setModelValueWithValidation}
-          fieldKey={RegistrationFields.LAST_NAME}
-          name="Last Name"
-          placeholder="Type your last name"
-        />
-          <Button onPress={openModal}>
-              {model[RegistrationFields.AVATAR] ? 'Edit avatar photo' : 'Upload avatar'}
-          </Button>
-      </View>
-        <Portal>
-            <Dialog visible={imageModalStatus} onDismiss={dismissModal}>
-                <Dialog.Title>Select your avatar</Dialog.Title>
-                <Dialog.Content style={{ alignItems: 'center' }}>
-                    <ImageUploader
-                        setModelValue={setModelValueWithValidation}
-                        fieldKey={RegistrationFields.AVATAR}
-                        defaultValue={model[RegistrationFields.AVATAR]}
-                    />
-                </Dialog.Content>
-                <Dialog.Actions>
-                    <Button onPress={dismissModal}>Done</Button>
-                </Dialog.Actions>
-            </Dialog>
-        </Portal>
-        <Button disabled={!isValid} mode="contained" onPress={onSubmit}>
-            Submit
-        </Button>
-    </GradientBackground>
+        <GradientBackground>
+            <Title style={styles.registrationTitle}>Registration</Title>
+            <View style={styles.textInputsContainer}>
+                <ValidationInput
+                    externalStyle={styles.textInputsContainer}
+                    setModelValue={setModelValueWithValidation}
+                    fieldKey={RegistrationFields.EMAIL}
+                    error={errors[RegistrationFields.EMAIL]}
+                    placeholder='Type your e-mail'
+                />
+                <RePasswordInputComponent
+                    externalStyle={styles.textInputsContainer}
+                    setModelValue={setModelValueWithValidation}
+                    fieldKey={RegistrationFields.PASSWORD}
+                    error={errors[RegistrationFields.PASSWORD]}
+                />
+                <ValidationInput
+                    externalStyle={styles.textInputsContainer}
+                    setModelValue={setModelValueWithValidation}
+                    fieldKey={RegistrationFields.FIRST_NAME}
+                    placeholder='Type your first name'
+                />
+                <ValidationInput
+                    externalStyle={styles.textInputsContainer}
+                    setModelValue={setModelValueWithValidation}
+                    fieldKey={RegistrationFields.LAST_NAME}
+                    placeholder='Type your last name'
+                />
+                <Button style={styles.registrationAvatarButton} onPress={openModal}>
+                    {model[RegistrationFields.AVATAR] ? 'Edit avatar photo' : 'Upload avatar'}
+                </Button>
+            </View>
+            <ImageUploaderDialog
+                setModelValue={setModelValueWithValidation}
+                fieldKey={RegistrationFields.AVATAR}
+                isVisible={imageDialogStatus}
+                dismissModal={dismissModal}
+            />
+            <Button disabled={!isValid} mode='contained' onPress={onSubmit}>
+                Submit
+            </Button>
+        </GradientBackground>
     );
 };
 
 interface LoginStyles {
     registrationTitle: TextStyle;
     registrationContainer: ViewStyle;
+    registrationAvatarButton: ViewStyle;
     textInputsContainer: ViewStyle;
 }
 
@@ -128,6 +117,9 @@ const styles = StyleSheet.create<LoginStyles>({
         textAlign: 'center',
         color: 'white',
         fontSize: 23
+    },
+    registrationAvatarButton: {
+        marginVertical: 20,
     },
     registrationContainer: {
         flex: 1,

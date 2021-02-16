@@ -6,12 +6,12 @@ interface LoadingWrapperProps {
     message: string;
 }
 
-const LoadingWrapper: React.FC<LoadingWrapperProps> = ({ isLoading, message, children }) => (
+const LoadingWrapper: React.FC<LoadingWrapperProps> = ({isLoading, message, children}) => (
     <>
         {
             isLoading ? <LoadingScreen message={message}/> : children
         }
-   </>
+    </>
 );
 
 export default LoadingWrapper;

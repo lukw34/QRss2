@@ -1,5 +1,5 @@
-import { combineReducers, createStore, applyMiddleware } from 'redux';
-import { combineEpics, createEpicMiddleware } from 'redux-observable';
+import {combineReducers, createStore, applyMiddleware} from 'redux';
+import {combineEpics, createEpicMiddleware} from 'redux-observable';
 
 import auth from './auth/auth.reducer';
 import navigation from './navigation/navigation.reducer';
@@ -16,12 +16,12 @@ const reducers = combineReducers({
 });
 
 const rootEpic = combineEpics(
-  authEpic
+    authEpic
 );
 
 const store = createStore(
-  reducers,
-  applyMiddleware(epicMiddleware)
+    reducers,
+    applyMiddleware(epicMiddleware)
 );
 
 epicMiddleware.run(rootEpic);

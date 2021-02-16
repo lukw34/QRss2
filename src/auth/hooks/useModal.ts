@@ -1,6 +1,6 @@
-import { useState } from 'react';
+import {useState} from 'react';
 
-export default <FormModel extends object,
+export default <FormModel extends Record<string, unknown>,
     FormFields extends string>(initialState: FormModel) => {
     const [model, setModel] = useState<FormModel>(initialState);
 

@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
-import { Text } from 'react-native-paper';
-import { TextStyle, View, ViewStyle, StyleSheet } from 'react-native';
+import React, {useState} from 'react';
+import {Text} from 'react-native-paper';
+import {TextStyle, View, ViewStyle, StyleSheet} from 'react-native';
 import ValidationInput from './ValidationInput';
 
 interface EmailInputComponentProps {
@@ -11,7 +11,7 @@ interface EmailInputComponentProps {
 }
 
 const RePasswordInputComponent: React.FC<EmailInputComponentProps> = (
-  { externalStyle, error, fieldKey, setModelValue }) => {
+    {externalStyle, error, fieldKey, setModelValue}) => {
     const [password, setPassword] = useState('');
     const [rePassword, setRePassword] = useState('');
     const setRePasswordModelValue = () => {
@@ -22,35 +22,32 @@ const RePasswordInputComponent: React.FC<EmailInputComponentProps> = (
     };
 
     const isError = !!error;
-    const showErrorMessage = error !== undefined;
     return (
-    <>
-      <ValidationInput
-        externalStyle={externalStyle}
-        fieldKey={fieldKey}
-        name="Password"
-        secureTextEntry={true}
-        value={password}
-        onChangeText={setPassword}
-        setModelValue={setRePasswordModelValue}
-        placeholder="Type password"
-        disableErrorMessage={true}
-      />
-      <ValidationInput
-        externalStyle={externalStyle}
-        fieldKey={fieldKey}
-        name="Re-Password"
-        value={rePassword}
-        onChangeText={setRePassword}
-        setModelValue={setRePasswordModelValue}
-        disableErrorMessage={true}
-        secureTextEntry={true}
-        placeholder="Type password again"
-      />
-        <View style={styles.errorContainer}>
-            {isError && <Text style={styles.errorText}>{error}</Text>}
-        </View>
-    </>
+        <>
+            <ValidationInput
+                externalStyle={externalStyle}
+                fieldKey={fieldKey}
+                secureTextEntry={true}
+                value={password}
+                onChangeText={setPassword}
+                setModelValue={setRePasswordModelValue}
+                placeholder='Type password'
+                disableErrorMessage={true}
+            />
+            <ValidationInput
+                externalStyle={externalStyle}
+                fieldKey={fieldKey}
+                value={rePassword}
+                onChangeText={setRePassword}
+                setModelValue={setRePasswordModelValue}
+                disableErrorMessage={true}
+                secureTextEntry={true}
+                placeholder='Type password again'
+            />
+            <View style={styles.errorContainer}>
+                {isError && <Text style={styles.errorText}>{error}</Text>}
+            </View>
+        </>
     );
 };
 
