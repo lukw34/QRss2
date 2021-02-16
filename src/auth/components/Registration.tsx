@@ -22,11 +22,11 @@ enum RegistrationFields {
 }
 
 type FormModel = {
-    [RegistrationFields.PASSWORD]?: {
+    [RegistrationFields.PASSWORD]: {
         password: string,
         rePassword: string
     },
-    [RegistrationFields.EMAIL]?: string,
+    [RegistrationFields.EMAIL]: string,
     [RegistrationFields.LAST_NAME]?: string,
     [RegistrationFields.FIRST_NAME]?: string,
     [RegistrationFields.AVATAR]?: string
@@ -39,7 +39,13 @@ const Registration: React.FC = () => {
         [RegistrationFields.PASSWORD]: rePasswordValidator,
     };
     const [imageDialogStatus, setImageDialogStatus] = useState(false);
-    const {model, setModelValue} = useModal<FormModel, RegistrationFields>({});
+    const {model, setModelValue} = useModal<FormModel, RegistrationFields>({
+        [RegistrationFields.PASSWORD]: {
+            password: '',
+            rePassword: ''
+        },
+        [RegistrationFields.EMAIL]: ''
+    });
     const openModal = () => setImageDialogStatus(true);
     const dismissModal = () => setImageDialogStatus(false);
     const {
@@ -55,7 +61,7 @@ const Registration: React.FC = () => {
     const onSubmit = () => {
         if (validateAllFields(model)) {
             const {email = '', password, firstName, lastName} = model;
-            dispatch(createUser(email, password!.password, firstName, lastName));
+            dispatch(createUser(email, password.password, firstName, lastName));
         }
     };
 

@@ -1,18 +1,27 @@
 import {useState} from 'react';
 
+interface ValidationErrors {
+    [key: string]: string | null
+}
+
+interface UseModalInterface<Fields> {
+    setModelValueWithValidation: (key: Fields, value: any) => void,
+    errors: ValidationErrors,
+    validateAllFields: (model: { [key: string]: any }) => boolean,
+    isValid: boolean
+}
+
 export default <FormFields extends string>(
     fields: FormFields[],
     validators: {
         [key: string]: (value: any) => string | null
     },
-    setModelValue: (key: FormFields, value: any) => void) => {
+    setModelValue: (key: FormFields, value: any) => void): UseModalInterface<FormFields> => {
     const errorInitialState = fields.reduce((prev, val) => ({
         ...prev,
         [val]: null
     }), {});
-    const [errors, setError] = useState<{
-        [key: string]: string | null
-    }>(errorInitialState);
+    const [errors, setError] = useState<ValidationErrors>(errorInitialState);
 
     const checkIsValid = (key: FormFields, value: any) => {
         const validatorMethod = validators[key];

@@ -75,7 +75,7 @@ export const createUserWitProfileData: Epic<EpicActions> = (action$) => action$.
     catchError((error) => of(authError(error.message)))
 );
 
-export const authStatusChange = () => authChanged.pipe(
+export const authStatusChange: Epic<EpicActions> = () => authChanged.pipe(
     mergeMap((user: FirebaseAuthTypes.User) => {
         if (user === null) {
             return of(authFailure());
