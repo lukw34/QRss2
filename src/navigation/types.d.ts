@@ -1,4 +1,4 @@
-import { ActionType } from 'typesafe-actions';
+import {ActionType} from 'typesafe-actions';
 
 import * as  navActions from './navigation.actions';
 
