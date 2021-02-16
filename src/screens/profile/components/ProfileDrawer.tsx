@@ -1,12 +1,13 @@
 import React from 'react';
 import {StyleSheet, View, ViewStyle} from 'react-native';
+import {Button, Icon, Text} from 'native-base';
 // @ts-ignore
 import EvilIcons from 'react-native-vector-icons/EvilIcons';
 import {
     DrawerContentScrollView,
     DrawerItem
 } from '@react-navigation/drawer';
-import {useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {
     Title,
     Caption,
@@ -14,15 +15,15 @@ import {
     Drawer
 } from 'react-native-paper';
 
-// import { logOut } from '../../../auth/auth.actions';
+import {logOut} from '../../../auth/auth.actions';
 import {getProfileData} from '../profile.selectors';
 
 const ProfileDrawer: React.FC<any> = (props: any) => {
     const {avatar, email, displayName} = useSelector(getProfileData);
-    // const dispatch = useDispatch();
-    // const onPress = () => {
-    //   dispatch(logOut());
-    // };
+    const dispatch = useDispatch();
+    const onPress = () => {
+        dispatch(logOut());
+    };
 
     return (
         <DrawerContentScrollView
@@ -49,15 +50,10 @@ const ProfileDrawer: React.FC<any> = (props: any) => {
                         onPress={() => null}
                     />
                 </Drawer.Section>
-                {/* <Button*/}
-                {/*  color="red"*/}
-                {/*  style={styles.logoutContainer}*/}
-                {/*  mode="outlined"*/}
-                {/*  onPress={onPress}*/}
-                {/*  icon={({ size, color }) => <MaterialIcon color={color} size={size} name="power-settings-new"/>}*/}
-                {/* >*/}
-                {/*  Log out*/}
-                {/* </Button>*/}
+                <Button full danger iconLeft onPress={onPress}>
+                    <Icon name='home' />
+                    <Text>Log Out</Text>
+                </Button>
             </View>
         </DrawerContentScrollView>
     );
