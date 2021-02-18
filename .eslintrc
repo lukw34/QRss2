@@ -7,6 +7,11 @@
                 "ecmaVersion": 2018,
                 "sourceType": "module"
         },
+        "settings": {
+                "react": {
+                        "version": "detect"
+                }
+        },
         "env": {
                 "es6": true
         },
@@ -16,9 +21,6 @@
                 "react-hooks",
                 "@typescript-eslint"
         ],
-        "ecmaFeatures": {
-                "jsx": true
-        },
         "extends": ["eslint:recommended", "plugin:react/recommended", "plugin:@typescript-eslint/recommended"],
         "rules": {
                 "react-native/split-platform-components": 2,
